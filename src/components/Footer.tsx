@@ -32,9 +32,8 @@ const Footer = () => {
 
           {/* Copyright */}
           <div className="flex items-center gap-2 text-sm font-rajdhani text-muted-foreground">
-            <span>© {currentYear} Crafted with</span>
-            <Heart className="w-4 h-4 text-destructive fill-destructive" />
-            <span>by Sakshi Kumari</span>
+            <span>© {currentYear}</span>
+            <span>Sakshi Kumari Portfolio</span>
           </div>
         </div>
 

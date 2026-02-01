@@ -18,7 +18,7 @@ const EntryPortal = ({ onEnter }: EntryPortalProps) => {
   };
 
   const title = "SAKSHI KUMARI";
-  const subtitle = "Cybersecurity Engineer | Full Stack Developer | AI-Driven Security";
+  const subtitle = "COMPUTER SCIENCE & CYBERSECURITY ENTHUSIAST";
 
   return (
     <AnimatePresence>
@@ -29,7 +29,7 @@ const EntryPortal = ({ onEnter }: EntryPortalProps) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
           style={{
-            background: 'radial-gradient(ellipse at center, hsl(220 25% 8%) 0%, hsl(220 20% 4%) 100%)',
+            background: 'radial-gradient(ellipse at center, hsl(255, 27%, 6%) 0%, hsl(220 20% 4%) 100%)',
           }}
         >
           {/* Warp tunnel effect */}
@@ -219,7 +219,7 @@ const EntryPortal = ({ onEnter }: EntryPortalProps) => {
               
               {/* Button text */}
               <span className="relative text-primary group-hover:text-glow-cyan transition-all duration-300">
-                ENTER MY DIGITAL UNIVERSE
+                ENTER INTO MY DIGITAL UNIVERSE
               </span>
 
               {/* Corner decorations */}

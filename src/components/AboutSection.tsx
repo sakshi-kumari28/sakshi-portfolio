@@ -24,7 +24,7 @@ const AboutSection = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-3xl md:text-5xl font-orbitron font-bold gradient-text mb-4">
-            DIGITAL IDENTITY
+            ABOUT ME
           </h2>
           <div className="flex items-center justify-center gap-4">
             <div className="h-px w-20 bg-gradient-to-r from-transparent to-primary" />

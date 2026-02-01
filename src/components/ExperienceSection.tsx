@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Briefcase, Code, Smartphone, Rocket } from 'lucide-react';
 
@@ -14,13 +14,13 @@ interface Experience {
 
 const experiences: Experience[] = [
   {
-    id: "skillcraft",
-    role: "Software Development Intern",
-    company: "SkillCraft Technology",
+    id: "codsoft",
+    role: "Mobile Application Developer Intern",
+    company: "CodSoft",
     type: "Internship",
-    description: "Developed software solutions and gained hands-on experience in modern development practices and methodologies.",
-    icon: Code,
-    color: "primary",
+    description: "Developed mobile applications for Android platform, focusing on user experience and performance optimization.",
+    icon: Smartphone,
+    color: "accent",
   },
   {
     id: "cognifyz",
@@ -32,19 +32,43 @@ const experiences: Experience[] = [
     color: "secondary",
   },
   {
-    id: "codsoft",
-    role: "Mobile Application Developer Intern",
-    company: "CodSoft",
+    id: "skillcraft",
+    role: "Software Development Intern",
+    company: "SkillCraft Technology",
     type: "Internship",
-    description: "Developed mobile applications for Android platform, focusing on user experience and performance optimization.",
-    icon: Smartphone,
-    color: "accent",
+    description: "Developed software solutions and gained hands-on experience in modern development practices and methodologies.",
+    icon: Code,
+    color: "primary",
   },
 ];
 
 const ExperienceSection = () => {
   const ref = useRef(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  // Compute node positions and the largest gap to place the animated energy flow between nodes (avoids overlap)
+  const nodePositions = experiences.map((_, i) => ((i + 1) / (experiences.length + 1)) * 100);
+  const gaps = [] as { start: number; end: number; size: number }[];
+  let prev = 0;
+  for (const pos of nodePositions) { gaps.push({ start: prev, end: pos, size: pos - prev }); prev = pos; }
+  gaps.push({ start: prev, end: 100, size: 100 - prev });
+  const largestGap = gaps.reduce((a, b) => (a.size > b.size ? a : b), gaps[0]);
+  // Increase margin and reduce height for a subtle, non-overlapping flow
+  const marginPercent = Math.min(8, largestGap.size * 0.2);
+  let flowStart = largestGap.start + marginPercent;
+  let flowEnd = largestGap.end - marginPercent;
+  let flowHeight = Math.min(8, (flowEnd - flowStart) * 0.35);
+  if (flowEnd <= flowStart) {
+    // Fallback when gaps are too small
+    flowStart = 12;
+    flowEnd = 88;
+    flowHeight = 8;
+  }
+  const flowTopStart = flowStart;
+  const flowTopEnd = Math.max(flowStart, flowEnd - flowHeight);
+  const flowClass = 'w-[1px] opacity-40 blur-sm';
+  const flowDuration = 6; // slower animation
 
   return (
     <section id="experience" className="relative py-24 md:py-32" ref={ref}>
@@ -75,35 +99,54 @@ const ExperienceSection = () => {
 
         {/* Timeline */}
         <div className="relative">
-          {/* Central energy line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-secondary to-accent hidden lg:block" />
+          {/* Central energy line (vertical, small screens) */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-secondary to-accent block lg:hidden" />
           
           {/* Animated energy flow */}
           <motion.div
-            className="absolute left-1/2 top-0 w-px h-20 bg-gradient-to-b from-primary to-transparent hidden lg:block"
-            animate={{ top: [0, '100%'] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            className={`absolute left-1/2 ${flowClass} bg-gradient-to-b from-primary/20 to-transparent block lg:hidden`}
+            style={{ top: `${flowTopStart}%`, height: `${flowHeight}%` }}
+            animate={{ top: [`${flowTopStart}%`, `${flowTopEnd}%`] }}
+            transition={{ duration: flowDuration, repeat: Infinity, ease: "linear" }}
           />
+
+          {/* Horizontal connector for large screens (connect nodes left-to-right) */}
+          <div className="hidden lg:block absolute" style={{ top: '13%', left: `${nodePositions[0]}%`, width: `${nodePositions[nodePositions.length - 1] - nodePositions[0]}%` }}>
+            <div className="h-px w-full rounded bg-gradient-to-r from-primary/40 via-secondary/30 to-accent/40 opacity-60" />
+          </div>
 
           {/* Experience nodes */}
           <div className="space-y-12 lg:space-y-0">
-            {experiences.map((exp, index) => (
-              <motion.div
-                key={exp.id}
-                className={`relative lg:grid lg:grid-cols-2 lg:gap-12 ${
-                  index % 2 === 0 ? '' : 'lg:direction-rtl'
-                }`}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-              >
-                {/* Timeline node */}
-                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center justify-center z-10" style={{ top: `${index * 40 + 20}%` }}>
+            {experiences.map((exp, index) => {
+              const topPercent = ((index + 1) / (experiences.length + 1)) * 100;
+              const leftPercent = ((index + 1) / (experiences.length + 1)) * 100; // used for horizontal placement on lg
+              return (
+                <motion.div
+                  key={exp.id}
+                  className={`relative lg:grid lg:grid-cols-2 lg:gap-12 ${
+                    index % 2 === 0 ? '' : 'lg:direction-rtl'
+                  }`}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.8, delay: index * 0.2 }}
+                >
+                {/* Timeline node (horizontal on lg) */}
+                <div className="hidden lg:flex absolute -translate-x-1/2 items-center justify-center z-10" style={{ left: `${leftPercent}%`, top: '12%' }}>
                   <motion.div
-                    className={`w-16 h-16 rounded-full bg-${exp.color}/20 border-2 border-${exp.color} flex items-center justify-center glow-${exp.color === 'primary' ? 'cyan' : exp.color === 'secondary' ? 'blue' : 'violet'}`}
+                    className={`w-16 h-16 rounded-full bg-${exp.color}/20 border-2 border-${exp.color} flex items-center justify-center glow-${exp.color === 'primary' ? 'cyan' : exp.color === 'secondary' ? 'blue' : 'violet'} cursor-pointer`}
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={expanded === exp.id}
+                    aria-controls={`exp-${exp.id}`}
+                    onClick={() => setExpanded(expanded === exp.id ? null : exp.id)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpanded(expanded === exp.id ? null : exp.id); } }}
                     whileHover={{ scale: 1.2 }}
                     animate={{ 
-                      boxShadow: [
+                      boxShadow: expanded === exp.id ? [
+                        `0 0 30px hsl(var(--${exp.color}) / 0.6)`,
+                        `0 0 60px hsl(var(--${exp.color}) / 0.8)`,
+                        `0 0 30px hsl(var(--${exp.color}) / 0.6)`,
+                      ] : [
                         `0 0 20px hsl(var(--${exp.color}) / 0.3)`,
                         `0 0 40px hsl(var(--${exp.color}) / 0.5)`,
                         `0 0 20px hsl(var(--${exp.color}) / 0.3)`,
@@ -116,11 +159,23 @@ const ExperienceSection = () => {
                 </div>
 
                 {/* Content card */}
-                <div className={`${index % 2 === 0 ? 'lg:pr-20' : 'lg:col-start-2 lg:pl-20'}`}>
+                <div className={`${index % 2 === 0 ? 'lg:pr-20' : 'lg:col-start-2 lg:pl-20'} ${expanded === exp.id ? '' : 'lg:hidden'}`}>
                   <motion.div
+                    id={`exp-${exp.id}`}
                     className="glass-panel p-6 md:p-8 relative overflow-hidden group"
                     whileHover={{ scale: 1.02 }}
                   >
+                    {/* Close control for desktop when expanded */}
+                    {expanded === exp.id && (
+                      <button
+                        className="absolute top-4 right-4 p-2 rounded-full bg-muted/30 hover:bg-muted/40 text-sm"
+                        onClick={() => setExpanded(null)}
+                        aria-label="Close details"
+                      >
+                        ✕
+                      </button>
+                    )}
+
                     {/* Mobile icon */}
                     <div className={`lg:hidden inline-flex p-3 rounded-lg bg-${exp.color}/10 border border-${exp.color}/30 mb-4`}>
                       <exp.icon className={`w-6 h-6 text-${exp.color}`} />
@@ -159,7 +214,8 @@ const ExperienceSection = () => {
                 {/* Empty space for alternating layout */}
                 {index % 2 === 0 ? <div className="hidden lg:block" /> : null}
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

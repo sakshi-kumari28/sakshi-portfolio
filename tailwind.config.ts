@@ -178,5 +178,6 @@ export default {
       },
     },
   },
-  plugins: [tailwindAnimate as unknown as Plugin],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  plugins: [tailwindAnimate as any],
 } satisfies Config;

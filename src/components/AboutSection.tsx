@@ -53,16 +53,18 @@ const AboutSection = () => {
                 {/* Header with avatar placeholder */}
                 <div className="flex items-start gap-6 mb-6">
                   <div className="relative">
-                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/30 flex items-center justify-center">
-                      <img
-                        src="/profile.jpg"
-                        alt="Sakshi Kumari"
-                        className="w-full h-full object-cover"
-                        style={{ objectPosition: '50% 20%' }}
-                        onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'; }}
-                      />
+                    <div className="w-20 h-20 rounded-full p-[3px] bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/30 flex items-center justify-center shadow-[0_6px_18px_rgba(0,0,0,0.4)] ring-1 ring-primary/20 overflow-visible">
+                      <div className="w-full h-full rounded-full overflow-hidden bg-card">
+                        <img
+                          src="/profile.jpg"
+                          alt="Sakshi Kumari"
+                          className="w-full h-full object-cover"
+                          style={{ objectPosition: '50% 14%' }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'; }}
+                        />
+                      </div>
                     </div>
-                    <div className="absolute -inset-1 rounded-lg bg-primary/20 blur-lg -z-10" />
+                    <div className="absolute -inset-1 rounded-full bg-primary/20 blur-lg -z-10" />
                   </div>
                   <div>
                     <h3 className="text-2xl font-orbitron font-bold text-foreground mb-1">

@@ -39,11 +39,11 @@ const skillCategories: SkillCategory[] = [
     icon: Shield,
     color: "secondary",
     skills: [
-      { name: "Network Security", level: 85, status: 'active', usedIn: ["Secure Crypto-Biometric System for Cloud Computing"], canHandle: "Independent", learning: "Zero-trust architectures" },
+      { name: "Network Security", level: 85, status: 'learning', usedIn: ["Secure Crypto-Biometric System for Cloud Computing"], canHandle: "Independent", learning: "Zero-trust architectures" },
       { name: "Malware Analysis", level: 90, status: 'learning', usedIn: ["Robust Intelligent Malware Detection Using Deep Learning"], canHandle: "Expert", learning: "Automated triage" },
-      { name: "Threat Detection", level: 85, status: 'active', usedIn: ["SOC rules & ML models"], canHandle: "Independent", learning: "Federated learning for detections" },
-      { name: "Incident Response", level: 80, status: 'active', usedIn: ["SOC ops"], canHandle: "Lead responder", learning: "Forensics automation" },
-      { name: "Vulnerability Assessment", level: 85, status: 'active', usedIn: ["Security audits"], canHandle: "Independent", learning: "Red team methodologies" },
+      { name: "Threat Detection", level: 85, status: 'learning', usedIn: ["SOC rules & ML models"], canHandle: "Independent", learning: "Federated learning for detections" },
+      { name: "Incident Response", level: 80, status: 'learning', usedIn: ["SOC ops"], canHandle: "Lead responder", learning: "Forensics automation" },
+      { name: "Vulnerability Assessment", level: 85, status: 'learning', usedIn: ["Security audits"], canHandle: "Independent", learning: "Red team methodologies" },
       { name: "Cybersecurity Fundamentals", level: 90, status: 'certified', usedIn: ["Training & mentoring"], canHandle: "Mentor", learning: "Cloud-native security" },
     ]
   },
@@ -65,10 +65,10 @@ const skillCategories: SkillCategory[] = [
     icon: Cloud,
     color: "success",
     skills: [
-      { name: "Oracle Cloud Infrastructure", level: 80, status: 'active', usedIn: ["OCI ML & infra"], canHandle: "Deployment & infra", learning: "OCI advanced services" },
+      { name: "Oracle Cloud Infrastructure", level: 80, status: 'certified', usedIn: ["OCI ML & infra"], canHandle: "Deployment & infra", learning: "OCI advanced services" },
       { name: "Google Cloud Platform", level: 80, status: 'active', usedIn: ["GCP prototypes"], canHandle: "Deployments", learning: "Cloud Run & Anthos" },
-      { name: "Cloud Computing", level: 85, status: 'active', usedIn: ["All cloud projects"], canHandle: "Architecture", learning: "Cost optimization" },
-      { name: "Linux Systems", level: 80, status: 'active', usedIn: ["Dev infra"], canHandle: "Administration", learning: "Kernel tuning" },
+      { name: "Cloud Computing", level: 85, status: 'learning', usedIn: ["All cloud projects"], canHandle: "Architecture", learning: "Cost optimization" },
+      { name: "Linux Systems", level: 80, status: 'learning', usedIn: ["Dev infra"], canHandle: "Administration", learning: "Kernel tuning" },
       { name: "Windows Systems", level: 85, status: 'active', usedIn: ["Enterprise setups"], canHandle: "Administration", learning: "AD/GPO" },
     ]
   },
@@ -79,7 +79,7 @@ const skillCategories: SkillCategory[] = [
     skills: [
       { name: "Git & GitHub", level: 90, status: 'active', usedIn: ["All projects"], canHandle: "Expert (workflow & CI)" , learning: "Advanced git ops", links: [{ label: 'GitHub Profile', href: 'https://github.com/sakshi-kumari28' }] },
       { name: "Firebase", level: 80, status: 'active', usedIn: ["Prototypes"], canHandle: "Deployment & auth", learning: "Firestore scaling" },
-      { name: "Apache Server", level: 75, status: 'active', usedIn: ["Legacy services"], canHandle: "Maintenance", learning: "Nginx tuning" },
+      { name: "Apache Server", level: 75, status: 'learning', usedIn: ["Legacy services"], canHandle: "Maintenance", learning: "Nginx tuning" },
     ]
   },
 ];
@@ -268,10 +268,10 @@ const SkillsSection = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-3xl md:text-5xl font-orbitron font-bold gradient-text mb-4">
-            CYBER CONTROL PANEL
+            Skills CONTROL PANEL
           </h2>
           <p className="text-muted-foreground font-rajdhani text-lg max-w-2xl mx-auto">
-            Technical arsenal and operational capabilities for cyber defense and development
+            Technical arsenal and operational capabilities
           </p>
           <div className="flex items-center justify-center gap-4 mt-4">
             <div className="h-px w-20 bg-gradient-to-r from-transparent to-primary" />
@@ -320,12 +320,12 @@ const SkillsSection = () => {
                     <div className="flex items-start gap-3 min-w-0">
                       <div className={`w-3 h-3 rounded-full mt-1 ${statusDot} ring-1 ring-primary/20`} aria-hidden="true" />
                       <div className="min-w-0">
-                        <div className="font-medium text-foreground truncate">{skill.name}</div>
+                        <div className="font-medium text-foreground whitespace-normal" title={skill.name}>{skill.name}</div>
                         <div className="text-xs text-muted-foreground">Proficiency</div>
                       </div>
                     </div>
 
-                    <div className="w-full max-w-[440px]">
+                    <div className="flex-1 max-w-[440px]">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex-1 mr-4">
                           <div className="h-2 bg-muted rounded-full overflow-hidden">

@@ -58,7 +58,7 @@ const Index = () => {
                     </div>
                   </div>
                   <p className="text-lg md:text-xl font-rajdhani text-muted-foreground max-w-2xl mx-auto mb-8">
-                    Cybersecurity Engineer | Full Stack Developer
+                    Computer Science Engineer | Aspiring Cybersecurity Enthusiast
                   </p>
                   
                   {/* Scroll indicator */}

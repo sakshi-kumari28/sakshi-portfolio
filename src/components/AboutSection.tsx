@@ -82,7 +82,7 @@ const AboutSection = () => {
                 </div>
 
                 {/* About text */}
-                <p className="text-muted-foreground leading-relaxed mb-6 font-rajdhani text-lg">
+                <p className="text-muted-foreground leading-relaxed mb-6 font-rajdhani text-lg text-justify">
                   Computer Science Engineering undergraduate with strong hands-on experience in 
                   <span className="text-primary"> malware detection</span>, 
                   <span className="text-secondary"> network security</span>, 
@@ -93,7 +93,7 @@ const AboutSection = () => {
                   <span className="text-secondary"> Oracle</span> certifications.
                 </p>
 
-                <p className="text-muted-foreground leading-relaxed font-rajdhani text-lg">
+                <p className="text-muted-foreground leading-relaxed font-rajdhani text-lg text-justify">
                   Proven ability to design AI-driven security systems, develop scalable web applications, 
                   and implement secure authentication mechanisms. Actively seeking cybersecurity, 
                   cloud security, or software engineering opportunities in international technical environments.
@@ -142,22 +142,15 @@ const AboutSection = () => {
               ))}
             </div>
 
-            {/* Training badges */}
-            <motion.div
-              className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 1 }}
-            >
-              {['Cisco Certified', 'Oracle Cloud', 'Google Cloud'].map((badge) => (
-                <span
-                  key={badge}
-                  className="px-4 py-2 rounded-full text-sm font-mono border border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-colors"
-                >
-                  {badge}
-                </span>
-              ))}
-            </motion.div>
+            {/* Certifications CTA */}
+            <div className="mt-8 flex justify-center lg:justify-start">
+              <a
+                href="#certifications"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-mono border border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-colors"
+              >
+                View Certifications
+              </a>
+            </div>
           </motion.div>
         </div>
       </div>

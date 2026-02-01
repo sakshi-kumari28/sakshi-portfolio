@@ -66,7 +66,15 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="glass-panel p-8 h-full relative overflow-hidden transition-all duration-500 hover:border-primary/50">
+      <div className="glass-panel p-8 h-full relative z-10 overflow-hidden transition-all duration-500 hover:border-primary/50">
+        {/* Make entire card clickable while preserving inner buttons */}
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${project.title} on GitHub`}
+          className="absolute inset-0 z-0"
+        />
         {/* Animated background */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           <div className={`absolute inset-0 bg-gradient-to-br from-${project.color}/10 to-transparent`} />
@@ -155,7 +163,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex items-center gap-2 px-4 py-2 font-mono text-sm text-${project.color} border border-${project.color}/50 rounded-lg hover:bg-${project.color}/10 transition-colors`}
+            className={`inline-flex items-center gap-2 px-4 py-2 font-mono text-sm text-${project.color} border border-${project.color}/50 rounded-lg hover:bg-${project.color}/10 transition-colors z-20`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
           >

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Award, Trophy, Medal, Star, ExternalLink, Shield, Cloud, Cpu } from 'lucide-react';
 
@@ -93,7 +93,7 @@ const CertificationCard = ({ cert, index }: { cert: Certification; index: number
         <AnimatePresence>
           {isUnlocked && (
             <motion.div
-              className={`absolute inset-0 bg-${cert.color}/20 rounded-lg`}
+              className={`absolute inset-0 bg-${cert.color}/20 rounded-lg pointer-events-none`}
               initial={{ opacity: 1 }}
               animate={{ opacity: 0 }}
               exit={{ opacity: 0 }}
@@ -166,7 +166,7 @@ const CertificationCard = ({ cert, index }: { cert: Certification; index: number
           href={cert.link}
           target="_blank"
           rel="noopener noreferrer"
-          className={`inline-flex items-center gap-2 text-sm font-mono text-${cert.color} hover:underline`}
+          className={`inline-flex items-center gap-2 text-sm font-mono text-${cert.color} hover:underline z-20`}
           whileHover={{ x: 5 }}
         >
           <ExternalLink className="w-4 h-4" />
@@ -175,7 +175,7 @@ const CertificationCard = ({ cert, index }: { cert: Certification; index: number
 
         {/* Corner shine effect */}
         <motion.div
-          className={`absolute -top-20 -right-20 w-40 h-40 bg-${cert.color}/10 rounded-full blur-3xl`}
+          className={`absolute -top-20 -right-20 w-40 h-40 bg-${cert.color}/10 rounded-full blur-3xl pointer-events-none`}
           animate={isUnlocked ? { opacity: [0, 0.5, 0] } : {}}
           transition={{ duration: 1, delay: index * 0.2 }}
         />
@@ -268,8 +268,21 @@ const AchievementBadge = ({ achievement, index }: { achievement: Achievement; in
 };
 
 const AchievementsSection = () => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const certsRef = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  // Scroll to certifications when navigated via #certifications
+  useEffect(() => {
+    const scrollIfHash = () => {
+      if (typeof window !== 'undefined' && window.location.hash === '#certifications') {
+        setTimeout(() => certsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+      }
+    };
+    scrollIfHash();
+    window.addEventListener('hashchange', scrollIfHash);
+    return () => window.removeEventListener('hashchange', scrollIfHash);
+  }, []);
 
   return (
     <section id="achievements" className="relative py-24 md:py-32" ref={ref}>
@@ -305,19 +318,23 @@ const AchievementsSection = () => {
         </motion.div>
 
         {/* Certifications */}
-        <div className="mb-16">
+        <div className="mb-6" id="certifications" ref={certsRef}>
           <motion.h3
-            className="text-xl font-orbitron font-semibold text-foreground mb-8 flex items-center gap-3"
+            className="text-xl font-orbitron font-semibold text-foreground mb-4 flex items-center gap-3"
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
           >
             <span className="text-primary">//</span> PROFESSIONAL CERTIFICATIONS
           </motion.h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <p className="text-muted-foreground font-rajdhani mb-6">Click "Verify Credential" to open the issuer verification in a new tab.</p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-4">
             {certifications.map((cert, index) => (
               <CertificationCard key={cert.id} cert={cert} index={index} />
             ))}
-          </div>
+          </div> 
+
+
         </div>
 
         {/* Achievements */}

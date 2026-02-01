@@ -53,7 +53,7 @@ const Index = () => {
                     <span className="text-foreground"> KUMARI</span>
                   </h1>
                   <p className="text-lg md:text-xl font-rajdhani text-muted-foreground max-w-2xl mx-auto mb-8">
-                    Cybersecurity Engineer | Full Stack Developer | AI-Driven Security Specialist
+                    Cybersecurity Engineer | Full Stack Developer
                   </p>
                   
                   {/* Scroll indicator */}

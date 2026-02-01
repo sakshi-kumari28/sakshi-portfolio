@@ -48,10 +48,15 @@ const Index = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.8 }}
                 >
-                  <h1 className="text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-4">
-                    <span className="text-primary text-glow-cyan">SAKSHI</span>
-                    <span className="text-foreground"> KUMARI</span>
-                  </h1>
+                  <div className="flex items-center justify-center gap-6">
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-4">
+                      <span className="text-primary text-glow-cyan">SAKSHI</span>
+                      <span className="text-foreground"> KUMARI</span>
+                    </h1>
+                    <div className="hidden sm:block">
+                      <img src="/profile.jpg" alt="Sakshi Kumari" className="w-20 h-20 rounded-full border-2 border-primary/30 shadow-lg object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'}} />
+                    </div>
+                  </div>
                   <p className="text-lg md:text-xl font-rajdhani text-muted-foreground max-w-2xl mx-auto mb-8">
                     Cybersecurity Engineer | Full Stack Developer
                   </p>

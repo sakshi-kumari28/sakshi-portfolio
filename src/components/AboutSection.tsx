@@ -58,6 +58,7 @@ const AboutSection = () => {
                         src="/profile.jpg"
                         alt="Sakshi Kumari"
                         className="w-full h-full object-cover"
+                        style={{ objectPosition: '50% 20%' }}
                         onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'; }}
                       />
                     </div>

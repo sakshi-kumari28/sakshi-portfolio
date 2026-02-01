@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Briefcase, Code, Smartphone, Rocket } from "lucide-react";
 
@@ -8,7 +8,7 @@ interface Experience {
   company: string;
   type: string;
   description: string;
-  icon: any;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   color: string;
 }
 

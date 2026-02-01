@@ -63,7 +63,7 @@ const AboutSection = () => {
                       SAKSHI KUMARI
                     </h3>
                     <p className="text-primary font-mono text-sm">
-                      [CYBER_SEC_ENGINEER]
+                      [Computer Science Engineer]
                     </p>
                     <div className="flex items-center gap-2 mt-2 text-muted-foreground text-sm">
                       <MapPin className="w-4 h-4" />

@@ -1,10 +1,14 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Code, Shield, Brain, Cloud, Wrench } from 'lucide-react';
+import { Code, Shield, Brain, Cloud, Wrench, Github, ExternalLink } from 'lucide-react';
 
 interface Skill {
   name: string;
   level: number;
+  usedIn?: string[]; // Project titles where this skill was used
+  canHandle?: string; // Short description of proficiency (e.g., 'Independent', 'Mentor')
+  learning?: string; // What is currently being learned related to this skill
+  links?: { label: string; href: string }[]; // Optional related links (repos, demos)
 }
 
 interface SkillCategory {
@@ -20,13 +24,13 @@ const skillCategories: SkillCategory[] = [
     icon: Code,
     color: "primary",
     skills: [
-      { name: "Java", level: 90 },
-      { name: "JavaScript", level: 85 },
-      { name: "Python", level: 85 },
-      { name: "HTML/CSS", level: 90 },
-      { name: "Full Stack Development", level: 80 },
-      { name: "REST APIs", level: 85 },
-      { name: "Android Development", level: 75 },
+      { name: "Java", level: 90, usedIn: ["Robust Intelligent Malware Detection Using Deep Learning"], canHandle: "Independent (large codebases)", learning: "Rust for safety-sensitive modules", links: [{ label: 'ML paper', href: 'https://github.com/sakshi-kumari28/robust-malware-detection' }] },
+      { name: "JavaScript", level: 85, usedIn: ["Secure Crypto-Biometric System for Cloud Computing"], canHandle: "Independent", learning: "TypeScript advanced patterns", links: [{ label: 'Crypto-Bio', href: 'https://github.com/sakshi-kumari28/cloud-crypto-bio-auth' }] },
+      { name: "Python", level: 85, usedIn: ["Robust Intelligent Malware Detection Using Deep Learning"], canHandle: "Expert (ML/analysis)", learning: "Production ML pipelines", links: [{ label: 'Malware Detection', href: 'https://github.com/sakshi-kumari28/robust-malware-detection' }] },
+      { name: "HTML/CSS", level: 90, usedIn: ["Project Dashboards"], canHandle: "Independent", learning: "Design systems & accessibility" },
+      { name: "Full Stack Development", level: 80, usedIn: ["All projects"], canHandle: "Independent", learning: "Performance optimization" },
+      { name: "REST APIs", level: 85, usedIn: ["All projects"], canHandle: "Independent", learning: "API security best practices" },
+      { name: "Android Development", level: 75, usedIn: ["Mobile auth prototype"], canHandle: "Intermediate", learning: "Kotlin coroutines" },
     ]
   },
   {
@@ -34,12 +38,12 @@ const skillCategories: SkillCategory[] = [
     icon: Shield,
     color: "secondary",
     skills: [
-      { name: "Network Security", level: 85 },
-      { name: "Malware Analysis", level: 90 },
-      { name: "Threat Detection", level: 85 },
-      { name: "Incident Response", level: 80 },
-      { name: "Vulnerability Assessment", level: 85 },
-      { name: "Cybersecurity Fundamentals", level: 90 },
+      { name: "Network Security", level: 85, usedIn: ["Secure Crypto-Biometric System for Cloud Computing"], canHandle: "Independent", learning: "Zero-trust architectures" },
+      { name: "Malware Analysis", level: 90, usedIn: ["Robust Intelligent Malware Detection Using Deep Learning"], canHandle: "Expert", learning: "Automated triage" },
+      { name: "Threat Detection", level: 85, usedIn: ["SOC rules & ML models"], canHandle: "Independent", learning: "Federated learning for detections" },
+      { name: "Incident Response", level: 80, usedIn: ["SOC ops"], canHandle: "Lead responder", learning: "Forensics automation" },
+      { name: "Vulnerability Assessment", level: 85, usedIn: ["Security audits"], canHandle: "Independent", learning: "Red team methodologies" },
+      { name: "Cybersecurity Fundamentals", level: 90, usedIn: ["Training & mentoring"], canHandle: "Mentor", learning: "Cloud-native security" },
     ]
   },
   {
@@ -47,12 +51,12 @@ const skillCategories: SkillCategory[] = [
     icon: Brain,
     color: "accent",
     skills: [
-      { name: "Deep Learning", level: 85 },
-      { name: "Machine Learning", level: 85 },
-      { name: "CNN Networks", level: 80 },
-      { name: "LSTM", level: 80 },
-      { name: "Feature Engineering", level: 85 },
-      { name: "Data Preprocessing", level: 85 },
+      { name: "Deep Learning", level: 85, usedIn: ["Robust Intelligent Malware Detection Using Deep Learning"], canHandle: "Model design & training", learning: "Model explainability" },
+      { name: "Machine Learning", level: 85, usedIn: ["Multiple projects"], canHandle: "Model tuning & evaluation", learning: "MLOps" },
+      { name: "CNN Networks", level: 80, usedIn: ["Image-based malware analysis"], canHandle: "Design & train", learning: "Efficient CNN architectures" },
+      { name: "LSTM", level: 80, usedIn: ["Sequence analysis"], canHandle: "Design & tune", learning: "Transformers for sequences" },
+      { name: "Feature Engineering", level: 85, usedIn: ["All ML projects"], canHandle: "Advanced", learning: "Automated feature stores" },
+      { name: "Data Preprocessing", level: 85, usedIn: ["All ML projects"], canHandle: "Expert", learning: "Streaming data pipelines" },
     ]
   },
   {
@@ -60,11 +64,11 @@ const skillCategories: SkillCategory[] = [
     icon: Cloud,
     color: "success",
     skills: [
-      { name: "Oracle Cloud Infrastructure", level: 80 },
-      { name: "Google Cloud Platform", level: 80 },
-      { name: "Cloud Computing", level: 85 },
-      { name: "Linux Systems", level: 80 },
-      { name: "Windows Systems", level: 85 },
+      { name: "Oracle Cloud Infrastructure", level: 80, usedIn: ["OCI ML & infra"], canHandle: "Deployment & infra", learning: "OCI advanced services" },
+      { name: "Google Cloud Platform", level: 80, usedIn: ["GCP prototypes"], canHandle: "Deployments", learning: "Cloud Run & Anthos" },
+      { name: "Cloud Computing", level: 85, usedIn: ["All cloud projects"], canHandle: "Architecture", learning: "Cost optimization" },
+      { name: "Linux Systems", level: 80, usedIn: ["Dev infra"], canHandle: "Administration", learning: "Kernel tuning" },
+      { name: "Windows Systems", level: 85, usedIn: ["Enterprise setups"], canHandle: "Administration", learning: "AD/GPO" },
     ]
   },
   {
@@ -72,9 +76,9 @@ const skillCategories: SkillCategory[] = [
     icon: Wrench,
     color: "primary",
     skills: [
-      { name: "Git & GitHub", level: 90 },
-      { name: "Firebase", level: 80 },
-      { name: "Apache Server", level: 75 },
+      { name: "Git & GitHub", level: 90, usedIn: ["All projects"], canHandle: "Expert (workflow & CI)" , learning: "Advanced git ops", links: [{ label: 'GitHub Profile', href: 'https://github.com/sakshi-kumari28' }] },
+      { name: "Firebase", level: 80, usedIn: ["Prototypes"], canHandle: "Deployment & auth", learning: "Firestore scaling" },
+      { name: "Apache Server", level: 75, usedIn: ["Legacy services"], canHandle: "Maintenance", learning: "Nginx tuning" },
     ]
   },
 ];
@@ -141,14 +145,18 @@ const SkillCard = ({ category, index }: { category: SkillCategory; index: number
 
       {/* Skills */}
       <div className="space-y-4 relative">
-        {category.skills.map((skill, skillIndex) => (
-          <motion.div
-            key={skill.name}
-            className="relative"
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.3 + skillIndex * 0.05 }}
-          >
+        {category.skills.map((skill, skillIndex) => {
+          const tooltipId = `tooltip-${category.title.replace(/\s+/g, '-')}-${skill.name.replace(/\s+/g, '-')}`;
+          return (
+            <motion.div
+              key={skill.name}
+              tabIndex={0}
+              aria-describedby={tooltipId}
+              className="relative group outline-none"
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.3 + skillIndex * 0.05 }}
+            >
             <div className="flex items-center justify-between mb-1">
               <span className="text-sm font-rajdhani text-muted-foreground">
                 {skill.name}
@@ -168,8 +176,56 @@ const SkillCard = ({ category, index }: { category: SkillCategory; index: number
                 }}
               />
             </div>
+
+            {/* Hover / focus tooltip showing where the skill was used, proficiency remarks and current learning focus */}
+            <div
+              id={tooltipId}
+              role="tooltip"
+              className="relative md:absolute md:left-full md:top-0 md:ml-4 md:w-64 w-full mt-2 p-3 rounded-lg bg-card border border-border text-foreground shadow-lg opacity-0 transform -translate-y-1 scale-95 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:group-hover:scale-100 md:group-focus:opacity-100 md:group-focus:translate-y-0 md:group-focus:scale-100 transition-all z-20 pointer-events-none md:pointer-events-auto"
+            >
+              {skill.usedIn && (
+                <div className="text-sm mb-1">
+                  <span className="font-mono text-xs text-muted-foreground">Used in:</span>
+                  <div className="text-sm">{skill.usedIn.join(', ')}</div>
+                </div>
+              )}
+              {skill.canHandle && (
+                <div className="text-sm mb-1">
+                  <span className="font-mono text-xs text-muted-foreground">Can handle:</span>
+                  <div className="text-sm">{skill.canHandle}</div>
+                </div>
+              )}
+              {skill.learning && (
+                <div className="text-sm mb-2">
+                  <span className="font-mono text-xs text-muted-foreground">Learning:</span>
+                  <div className="text-sm">{skill.learning}</div>
+                </div>
+              )}
+
+              {skill.links && skill.links.length > 0 && (
+                <div className="pt-2 border-t border-border">
+                  <div className="text-xs font-mono text-muted-foreground mb-2">Related links</div>
+                  <div className="flex flex-wrap gap-2">
+                    {skill.links.map((lnk) => (
+                      <a
+                        key={lnk.href}
+                        href={lnk.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-2 py-1 rounded text-xs border border-border bg-muted/30 hover:bg-muted/40 transition-colors"
+                        aria-label={lnk.label}
+                      >
+                        <Github className="w-4 h-4" />
+                        <span>{lnk.label}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </motion.div>
-        ))}
+        );
+      })}
       </div>
 
       {/* Neural connection decorations */}
